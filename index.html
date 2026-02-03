@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StrongBody - Кәсіби Фитнес</title>
+    <style>
+        :root {
+            --primary: #e63946;
+            --dark: #121212;
+            --gray: #2d2d2d;
+            --white: #ffffff;
+            --light: #f8f9fa;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body { background-color: var(--light); color: var(--dark); overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* Навигация */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; background: var(--dark); color: white;
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .logo { font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--primary); }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 25px; }
+        nav ul li a { color: white; text-decoration: none; font-weight: 500; transition: 0.3s; }
+        nav ul li a:hover { color: var(--primary); }
+
+        /* Hero */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.pexels.com/photos/1552249/pexels-photo-1552249.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; color: white; text-align: center; padding: 0 20px;
+        }
+        .hero h1 { font-size: 4rem; text-transform: uppercase; margin-bottom: 20px; line-height: 1.1; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; max-width: 700px; opacity: 0.9; }
+        .btn {
+            padding: 15px 40px; background: var(--primary); color: white;
+            text-decoration: none; border-radius: 50px; font-weight: bold;
+            text-transform: uppercase; transition: 0.4s;
+        }
+        .btn:hover { background: #c1121f; transform: scale(1.05); box-shadow: 0 5px 15px rgba(230,57,70,0.4); }
+
+        section { padding: 80px 8%; text-align: center; }
+        h2 { font-size: 2.5rem; margin-bottom: 50px; text-transform: uppercase; position: relative; }
+        h2::after {
+            content: ''; width: 80px; height: 4px; background: var(--primary);
+            position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+
+        /* ТАМАҚТАНУ */
+        .nutrition-card {
+            background: white; padding: 35px; border-radius: 20px;
+            text-align: left; transition: 0.3s; border-bottom: 5px solid transparent;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        .nutrition-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .nutrition-card h3 { color: var(--dark); font-size: 24px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .icon-circle { width: 50px; height: 50px; background: #fff1f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 20px; margin-bottom: 15px; }
+
+        /* КҮНДЕЛІК */
+        .diary-wrapper { background: var(--dark); padding: 50px; border-radius: 30px; max-width: 900px; margin: 0 auto; color: white; }
+        .diary-inputs { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .diary-inputs input { flex: 1; min-width: 150px; background: #2d2d2d; border: 1px solid #444; color: white; padding: 15px; border-radius: 10px; }
+        .log-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .log-table th { padding: 15px; border-bottom: 2px solid var(--gray); color: var(--primary); text-transform: uppercase; font-size: 14px; }
+        .log-table td { padding: 15px; border-bottom: 1px solid #333; }
+
+        /* ТРЕНЕРЛЕР */
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: 0.4s; }
+        .img-box { width: 100%; height: 380px; object-fit: cover; display: block; }
+        .info { padding: 25px; }
+        .info h3 { font-size: 22px; margin-bottom: 8px; }
+        .info p { color: var(--primary); font-weight: 600; text-transform: uppercase; font-size: 14px; }
+
+        /* ЖАТТЫҒУЛАР */
+        .workout-section { background: var(--dark); color: white; }
+        .workout-item { position: relative; height: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); cursor: pointer; }
+        .workout-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .overlay { position: absolute; inset: 0; background: rgba(230, 57, 70, 0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.4s; color: white; font-size: 24px; font-weight: bold; text-transform: uppercase; }
+        .workout-item:hover .overlay { opacity: 1; }
+
+        /* НӘТИЖЕЛЕР */
+        .result-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 0 auto; max-width: 600px; }
+        .result-images { display: flex; gap: 10px; margin-bottom: 15px; }
+        .img-wrapper { position: relative; flex: 1; }
+        .img-wrapper img { width: 100%; height: 400px; object-fit: cover; border-radius: 10px; }
+        .img-label { position: absolute; bottom: 10px; left: 10px; background: #e63946; color: white; padding: 5px 15px; font-size: 14px; border-radius: 5px; font-weight: bold; }
+
+        /* БАҒАЛАР */
+        .price-card { background: white; padding: 40px 20px; border-radius: 20px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .price { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 20px; }
+        .buy-btn { width: 100%; padding: 12px; background: var(--dark); color: white; border-radius: 5px; font-weight: bold; cursor: pointer; border:none; }
+        .vip-card { border: 2px solid #ffd700; background: #fffdf0; }
+
+        /* ФОРМА ЖӘНЕ ЛОКАЦИЯ */
+        .location-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 30px; }
+        .map-container { height: 450px; border-radius: 15px; overflow: hidden; }
+        .work-hours { background: var(--dark); color: white; padding: 40px; border-radius: 15px; text-align: left; }
+        .hours-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333; }
+        .contact-form { background: white; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .submit-btn { width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+        footer { background: #0a0a0a; color: white; padding: 40px; text-align: center; }
+        @media (max-width: 768px) { .location-grid { grid-template-columns: 1fr; } .diary-inputs { flex-direction: column; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Strong<span>Body</span></div>
+        <ul>
+            <li><a href="#trainers">Тренерлер</a></li>
+            <li><a href="#nutrition">Тамақтану</a></li>
+            <li><a href="#diary">Күнделік</a></li>
+            <li><a href="#results">Нәтижелер</a></li>
+            <li><a href="#pricing">Бағалар</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Шектеуді ұмыт</h1>
+        <p>Өзіңді жақсы көруді денеңді шынықтырудан баста.</p>
+        <a href="#contact" class="btn">Тегін сынақ жаттығуы</a>
+    </header>
+
+    <section id="nutrition">
+        <h2>Дұрыс Тамақтану</h2>
+        <div class="grid">
+            <div class="nutrition-card">
+                <div class="icon-circle">🍳</div>
+                <h3>Таңғы ас</h3>
+                <p>Сұлы жармасы, бал, жұмыртқа және жидектер.</p>
+            </div>
+            <div class="nutrition-card">
+                <div class="icon-circle">🍱</div>
+                <h3>Түскі ас</h3>
+                <p>Тауық төсі, қарақұмық және көкөністер.</p>
+            </div>
+            <div class="nutrition-card">
+                <div class="icon-circle">🐟</div>
+                <h3>Кешкі ас</h3>
+                <p>Балық немесе жеңіл творог. Ұйқыға жеңілдік.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="diary" style="background: #f0f2f5;">
+        <h2>Жаттығу Күнделігі</h2>
+        <div class="diary-wrapper">
+            <div class="diary-inputs">
+                <input type="text" id="exName" placeholder="Жаттығу...">
+                <input type="number" id="exWeight" placeholder="кг">
+                <input type="number" id="exReps" placeholder="рет">
+                <button onclick="addEntry()" class="btn" style="border-radius: 10px;">Қосу</button>
+            </div>
+            <table class="log-table">
+                <thead><tr><th>Жаттығу</th><th>Салмақ</th><th>Қайталау</th></tr></thead>
+                <tbody id="diaryLog">
+                    <tr class="empty-row"><td colspan="3" style="text-align:center; opacity:0.5; padding:20px;">Жазба жоқ</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="trainers">
+        <h2>Біздің Тренерлер</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.pexels.com/photos/1229356/pexels-photo-1229356.jpeg?auto=compress&cs=tinysrgb&w=600" class="img-box">
+                <div class="info"><h3>Арман Серіков</h3><p>Күш және фитнес</p></div>
+            </div>
+            <div class="card">
+                <img src="https://images.pexels.com/photos/3823039/pexels-photo-3823039.jpeg?auto=compress&cs=tinysrgb&w=600" class="img-box">
+                <div class="info"><h3>Айгерім Мұрат</h3><p>Пилатес және стретчинг</p></div>
+            </div>
+            <div class="card">
+                <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=600" class="img-box">
+                <div class="info"><h3>Данияр Асанов</h3><p>Кроссфит эксперті</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="workouts" class="workout-section">
+        <h2 style="color: white;">Жаттығу Бағдарламалары</h2>
+        <div class="grid">
+            <div class="workout-item"><img src="https://images.pexels.com/photos/4162489/pexels-photo-4162489.jpeg?auto=compress&cs=tinysrgb&w=600"><div class="overlay">Күш жинау</div></div>
+            <div class="workout-item"><img src="https://images.pexels.com/photos/3760259/pexels-photo-3760259.jpeg?auto=compress&cs=tinysrgb&w=600"><div class="overlay">Кардио</div></div>
+            <div class="workout-item"><img src="https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=600"><div class="overlay">Йога</div></div>
+        </div>
+    </section>
+
+    <section id="results">
+        <h2>Клиенттер нәтижесі</h2>
+        <div class="result-card">
+            <div class="result-images">
+                <div class="img-wrapper"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvA1w-qcS13NhWiwl9GE6nnQ_1U5CdhdbKbg&s"><div class="img-label">ДЕЙІН</div></div>
+                <div class="img-wrapper"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf4OAEJBthICl7dqVoLV-5TJPGwbpAMVGTeA&s"><div class="img-label">КЕЙІН</div></div>
+            </div>
+            <div class="result-info"><h4>Мұрат, 32 жаста</h4><p>3 айда -18 кг майдан арылды</p></div>
+        </div>
+    </section>
+
+    <section id="pricing">
+        <h2>Жаттығу пакеттері</h2>
+        <div class="grid">
+            <div class="price-card">
+                <h3>Стандарт</h3>
+                <div class="price">15 000 ₸</div>
+                <ul><li>✅ 12 жаттығу</li><li>✅ Душ және шкаф</li></ul>
+                <button onclick="window.open('https://wa.me/77474931998')" class="buy-btn">Таңдау</button>
+            </div>
+            <div class="price-card" style="border: 2px solid var(--primary);">
+                <h3>Профи</h3>
+                <div class="price">35 000 ₸</div>
+                <ul><li>✅ Шексіз келу</li><li>✅ 8 жеке сабақ</li></ul>
+                <button onclick="window.open('https://wa.me/77474931998')" class="buy-btn" style="background: var(--primary);">Таңдау</button>
+            </div>
+            <div class="price-card vip-card">
+                <h3>VIP ✨</h3>
+                <div class="price" style="color: #d4af37;">65 000 ₸</div>
+                <ul><li>✅ Барлық мүмкіндіктер</li><li>✅ Бассейн + Массаж</li></ul>
+                <button onclick="window.open('https://wa.me/77474931998')" class="buy-btn" style="background: #ffd700; color: black;">Таңдау</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Жазылу</h2>
+        <div class="contact-form">
+            <input type="text" id="userName" placeholder="Атыңыз...">
+            <input type="tel" id="userPhone" placeholder="+7 7xx xxx xx xx">
+            <button onclick="sendToWhatsApp()" class="submit-btn">WhatsApp-қа жіберу</button>
+        </div>
+    </section>
+
+    <section id="location" style="background: #f0f0f0;">
+        <h2>Біздің филиал</h2>
+        <div class="location-grid">
+            <div class="map-container"><iframe width="100%" height="100%" frameborder="0" src="https://www.openstreetmap.org/export/embed.html?bbox=71.4241%2C51.0891%2C71.4541%2C51.1091&amp;layer=mapnik"></iframe></div>
+            <div class="work-hours">
+                <h3>Жұмыс уақыты</h3>
+                <div class="hours-row"><span>Дс - Жм</span><span>07:00 - 23:00</span></div>
+                <div class="hours-row"><span>Сенбі</span><span>09:00 - 21:00</span></div>
+                <p style="margin-top: 20px; opacity: 0.6;">Астана, Мәңгілік Ел 55</p>
+            </div>
+        </div>
+    </section>
+
+    <footer><p>©️ 2026 StrongBody Fitness Center.</p></footer>
+
+    <script>
+        function addEntry() {
+            const name = document.getElementById('exName').value;
+            const weight = document.getElementById('exWeight').value;
+            const reps = document.getElementById('exReps').value;
+            const log = document.getElementById('diaryLog');
+            if(name && weight && reps) {
+                const empty = document.querySelector('.empty-row');
+                if(empty) empty.remove();
+                log.innerHTML = `<tr><td>${name}</td><td>${weight} кг</td><td>${reps} рет</td></tr>` + log.innerHTML;
+                document.getElementById('exName').value = ""; document.getElementById('exWeight').value = ""; document.getElementById('exReps').value = "";
+            }
+        }
+        function sendToWhatsApp() {
+            const name = document.getElementById('userName').value;
+            const phone = document.getElementById('userPhone').value;
+            if (name && phone) { window.open(`https://wa.me/77474931998?text=Аты: ${name}%0AТел: ${phone}`, '_blank'); }
+            else { alert("Толтырыңыз!"); }
+        }
+    </script>
+</body>
+</html>
